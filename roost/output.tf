@@ -7,6 +7,15 @@ output "server_id"{
 output "jumphost_id" {
   value = aws_instance.roost_jumphost.id
 }
+output "jumphost_public_ip" {
+  value = aws_instance.roost_jumphost.public_ip
+}
+output "jumphost_public_dns" {
+  value = aws_instance.roost_jumphost.public_dns
+}
+output "jumphost_private_dns" {
+  value = aws_instance.roost_jumphost.private_dns
+}
 output "ssh_id"{
   value = aws_instance.roost_ssh.id
 }
