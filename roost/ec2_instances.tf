@@ -94,11 +94,16 @@ resource "aws_instance" "roost_controlplane" {
   #   hostname_type = "resource-name"
   # }
 
+  root_block_device {
+    volume_type = "gp3"
+    volume_size = 30
+  }
+
   ebs_block_device {
     delete_on_termination = false
     device_name = join("/",["","dev",var.device_name])
     volume_type = "gp3"
-    volume_size = 100
+    volume_size = var.controlplane_disk
   }
   tags = {
     Project = local.project
@@ -120,12 +125,18 @@ resource "aws_instance" "roost_eaas_server" {
   #   hostname_type = "resource-name"
   # }
 
+  root_block_device {
+    volume_type = "gp3"
+    volume_size = 30
+  }
+
   ebs_block_device {
     delete_on_termination = false
     device_name = join("/",["","dev",var.device_name])
     volume_type = "gp3"
-    volume_size = 100
+    volume_size = var.eaas_disk
   }
+
   tags = {
     Project = local.project
     Name = join("-",[var.prefix, var.company, "eaas-server"])
@@ -146,11 +157,16 @@ resource "aws_instance" "roost_jumphost" {
   #   hostname_type = "resource-name"
   # }
 
+  root_block_device {
+    volume_type = "gp3"
+    volume_size = 30
+  }
+
   ebs_block_device {
     delete_on_termination = false
     device_name = join("/",["","dev",var.device_name])
     volume_type = "gp3"
-    volume_size = 100
+    volume_size = var.jumphost_disk
   }
   tags = {
     Project = local.project
@@ -173,17 +189,19 @@ resource "aws_instance" "roost_ssh" {
   #   hostname_type = "resource-name"
   # }
 
-  ebs_block_device {
-    delete_on_termination = false
-    device_name = join("/",["","dev",var.device_name])
-    volume_type = "gp3"
-    volume_size = 100
-  }
+  # ebs_block_device {
+  #  delete_on_termination = false
+  #  device_name = join("/",["","dev",var.device_name])
+  #  volume_type = "gp3"
+  #  volume_size = 100
+  # }
+
   tags = {
     Project = local.project
     Name = join("-",[var.prefix, var.company, "bastion-ssh"])
   }
 }
+
 resource "null_resource" "deploy-ssh-keypair-roost-ssh" {
   # Changes to roost_ssh id requires re-provisioning
   triggers = {
@@ -198,7 +216,7 @@ resource "null_resource" "deploy-ssh-keypair-roost-ssh" {
       user = "ubuntu"
       private_key = sensitive(file("${path.root}/data/${var.key_pair}"))
       timeout = "1m"
-    }
+  }
   provisioner "file" {
     content = sensitive(file("${path.root}/data/${var.key_pair}"))
     destination = "/home/ubuntu/.ssh/${var.key_pair}"
@@ -279,8 +297,8 @@ resource "null_resource" "provision-controlplane" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'Running: ROOST_VER=${var.roost_version} /var/tmp/Roost/bin/roost-enterprise.sh -c /var/tmp/Roost/config.json -i roost' ",
-      "ROOST_VER=${var.roost_version} /var/tmp/Roost/bin/roost-enterprise.sh -c /var/tmp/Roost/config.json -i roost"
+      "echo 'Running: ROOST_VER=${var.roost_version} REACTUI_VER=${var.reactui_version} PROXY_VER=${var.proxy_version} /var/tmp/Roost/bin/roost-enterprise.sh -c /var/tmp/Roost/config.json -i roost' ",
+      "ROOST_VER=${var.roost_version} REACTUI_VER=${var.reactui_version} PROXY_VER=${var.proxy_version} /var/tmp/Roost/bin/roost-enterprise.sh -c /var/tmp/Roost/config.json -i roost"
     ]
     on_failure = fail
   }

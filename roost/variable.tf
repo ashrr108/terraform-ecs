@@ -233,11 +233,41 @@ variable "instance_type_controlplane" {
 variable "instance_type_jumphost" {
   description = "Instance type for jumphost"
   type = string
-  default = "t2.medium"
+  default = "t2.micro"
 }
 
 variable "roost_version" {
   description = "Version of Roost EaaS"
+  type = string
+  default = "v1.1.0"
+}
+
+variable "eaas_disk" {
+  description = "EaaS Roost Disk size."
+  type = number
+  default = 150
+}
+
+variable "jumphost_disk" {
+  description = "Roost Jumphost Disk size."
+  type = number
+  default = 100
+}
+
+variable "controlplane_disk" {
+  description = "Roost Controlplane Disk size."
+  type = number
+  default = 100
+}
+
+variable "reactui_version" {
+  description = "Version of Roost React UI"
+  type = string
+  default = "v1.1.0"
+}
+
+variable "proxy_version" {
+  description = "Version of Roost Console Proxy"
   type = string
   default = "v1.1.0"
 }
