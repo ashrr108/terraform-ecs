@@ -235,7 +235,7 @@ resource "null_resource" "provision-controlplane" {
 
   connection {
     type = "ssh"
-    agent = true
+    agent = false
     host = aws_instance.roost_controlplane.private_ip
     user = "ubuntu"
     private_key = sensitive(file("${path.root}/data/${var.key_pair}"))
