@@ -271,3 +271,9 @@ variable "proxy_version" {
   type = string
   default = "v1.1.0"
 }
+
+variable "certificate_arn" {
+  description = "ACM certificate arn to use"
+  type = string
+  default = ""
+}

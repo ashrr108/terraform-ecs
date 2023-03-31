@@ -3,7 +3,7 @@ module "acm" {
   version = "4.0.1"
   domain_name  = var.enterprise_dns
   zone_id      = data.aws_route53_zone.eaas.zone_id
-  create_certificate = true
+  create_certificate = var.certificate_arn == "" ? true : false
   validation_method = "DNS"
   wait_for_validation = false
   create_route53_records = true

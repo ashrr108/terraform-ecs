@@ -12,7 +12,7 @@ resource "aws_lb" "eaas_load_balancer" {
 
 resource "aws_lb_listener" "eaas-lb_listner" {
   load_balancer_arn = aws_lb.eaas_load_balancer.arn
-  certificate_arn   = module.acm.acm_certificate_arn
+  certificate_arn   = var.certificate_arn == "" ?  module.acm.acm_certificate_arn : var.certificate_arn
   port              = "443"
   protocol          = "HTTPS"
   default_action {
