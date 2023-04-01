@@ -96,7 +96,7 @@ resource "aws_instance" "roost_controlplane" {
 
   root_block_device {
     volume_type = "gp3"
-    volume_size = 30
+    volume_size = 50
   }
 
   ebs_block_device {
@@ -127,7 +127,7 @@ resource "aws_instance" "roost_eaas_server" {
 
   root_block_device {
     volume_type = "gp3"
-    volume_size = 30
+    volume_size = 50
   }
 
   ebs_block_device {
@@ -159,7 +159,7 @@ resource "aws_instance" "roost_jumphost" {
 
   root_block_device {
     volume_type = "gp3"
-    volume_size = 30
+    volume_size = 50
   }
 
   ebs_block_device {
@@ -297,8 +297,8 @@ resource "null_resource" "provision-controlplane" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'Running: ROOST_VER=${var.roost_version} REACTUI_VER=${var.reactui_version} PROXY_VER=${var.proxy_version} /var/tmp/Roost/bin/roost-enterprise.sh -c /var/tmp/Roost/config.json -i roost' ",
-      "ROOST_VER=${var.roost_version} REACTUI_VER=${var.reactui_version} PROXY_VER=${var.proxy_version} /var/tmp/Roost/bin/roost-enterprise.sh -c /var/tmp/Roost/config.json -i roost"
+      "echo 'Running: USE_ROOST_DEV_ENABLED=${var.dev} ROOST_VER=${var.roost_version} REACTUI_VER=${var.reactui_version} PROXY_VER=${var.proxy_version} /var/tmp/Roost/bin/roost-enterprise.sh -c /var/tmp/Roost/config.json -i roost' ",
+      "USE_ROOST_DEV_ENABLED=${var.dev} ROOST_VER=${var.roost_version} REACTUI_VER=${var.reactui_version} PROXY_VER=${var.proxy_version} /var/tmp/Roost/bin/roost-enterprise.sh -c /var/tmp/Roost/config.json -i roost"
     ]
     on_failure = fail
   }

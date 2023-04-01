@@ -277,3 +277,8 @@ variable "certificate_arn" {
   type = string
   default = ""
 }
+variable "dev"{
+  description = "Dev mode flag. Enable Debug. Default false"
+  type = bool
+  default = false
+}
