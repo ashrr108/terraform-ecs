@@ -242,19 +242,19 @@ variable "roost_version" {
   default = "v1.1.0"
 }
 
-variable "eaas_disk" {
+variable "disk_eaas" {
   description = "EaaS Roost Disk size."
   type = number
   default = 150
 }
 
-variable "jumphost_disk" {
+variable "disk_jumphost" {
   description = "Roost Jumphost Disk size."
   type = number
   default = 100
 }
 
-variable "controlplane_disk" {
+variable "disk_controlplane" {
   description = "Roost Controlplane Disk size."
   type = number
   default = 100

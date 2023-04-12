@@ -103,7 +103,7 @@ resource "aws_instance" "roost_controlplane" {
     delete_on_termination = false
     device_name = join("/",["","dev",var.device_name])
     volume_type = "gp3"
-    volume_size = var.controlplane_disk
+    volume_size = var.disk_controlplane
   }
   tags = {
     Project = local.project
@@ -134,7 +134,7 @@ resource "aws_instance" "roost_eaas_server" {
     delete_on_termination = false
     device_name = join("/",["","dev",var.device_name])
     volume_type = "gp3"
-    volume_size = var.eaas_disk
+    volume_size = var.disk_eaas
   }
 
   tags = {
@@ -166,7 +166,7 @@ resource "aws_instance" "roost_jumphost" {
     delete_on_termination = false
     device_name = join("/",["","dev",var.device_name])
     volume_type = "gp3"
-    volume_size = var.jumphost_disk
+    volume_size = var.disk_jumphost
   }
   tags = {
     Project = local.project
