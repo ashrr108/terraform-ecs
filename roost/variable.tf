@@ -1,26 +1,23 @@
 variable "prefix" {
   description = "Prefix to be used to uniquely identify EaaS resources."
   type        = string
-  default     = "terraform-eaas"
+  default     = "roost-eaas"
 }
 variable "region" {
   description = "Region where EaaS would setup. Default: 'us-west-1"
   type = string
   default = "us-west-1"
 }
-
 variable "az1_suffix" {
   description = "Availability zone suffix. e.g. a, b, c. Default: ''"
   type = string
   default = ""
 }
-
 variable "az2_suffix" {
   description = "Availability zone suffix. e.g. a, b, c. Default: ''"
   type = string
   default = ""
 }
-
 variable "ec2_ami" {
   description = "AMI used to launch all instances. Default 'ami-02ea247e531eb3ce6'"
   type = string
@@ -46,13 +43,11 @@ variable "enterprise_dns" {
   type = string
   default = ""
 }
-
 variable "ip_block_vpc" {
   description = "IP for CIDR block for VPC"
   type = string
   default = "172.32.255.192"
 }
-
 variable "google_client_id" {
   description = "user ID of GCP"
   type = string
@@ -112,7 +107,6 @@ variable "okta_issuer" {
   description = "user issuer of Okta, if okta id and secret are provided."
   type = string
 }
-
 variable "roost_jwt_token" {
   description = "Roost authorization token."
   type = string
@@ -239,7 +233,7 @@ variable "instance_type_jumphost" {
 variable "roost_version" {
   description = "Version of Roost EaaS"
   type = string
-  default = "v1.1.0"
+  default = "v1.1.1"
 }
 
 variable "disk_eaas" {
@@ -251,25 +245,25 @@ variable "disk_eaas" {
 variable "disk_jumphost" {
   description = "Roost Jumphost Disk size."
   type = number
-  default = 100
+  default = 150
 }
 
 variable "disk_controlplane" {
   description = "Roost Controlplane Disk size."
   type = number
-  default = 100
+  default = 150
 }
 
 variable "reactui_version" {
   description = "Version of Roost React UI"
   type = string
-  default = "v1.1.0"
+  default = "v1.1.1"
 }
 
 variable "proxy_version" {
   description = "Version of Roost Console Proxy"
   type = string
-  default = "v1.1.0"
+  default = "v1.1.1"
 }
 
 variable "certificate_arn" {
