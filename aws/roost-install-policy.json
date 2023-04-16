@@ -9,17 +9,22 @@
                 "ec2:AuthorizeSecurityGroupEgress",
                 "ec2:AuthorizeSecurityGroupIngress",
                 "logs:DescribeLogGroups",
+                "servicediscovery:DeleteNamespace",
                 "logs:TagResource",
+                "servicediscovery:RegisterInstance",
                 "logs:CreateLogGroup",
                 "logs:PutLogEvents",
                 "servicediscovery:CreateService",
                 "servicediscovery:UpdateService",
                 "ec2:RevokeSecurityGroupIngress",
+                "servicediscovery:DeregisterInstance",
                 "logs:CreateLogStream",
                 "servicediscovery:DeleteService",
                 "ec2:CreateSecurityGroup",
                 "ec2:RevokeSecurityGroupEgress",
-                "ec2:DeleteSecurityGroup"
+                "ec2:DeleteSecurityGroup",
+                "servicediscovery:GetNamespace",
+                "servicediscovery:GetService"
             ],
             "Resource": [
                 "arn:aws:logs:*:*:*",
@@ -31,8 +36,20 @@
         {
             "Sid": "VisualEditor1",
             "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": "ecs-tasks.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
             "Action": [
                 "elasticloadbalancing:ModifyListener",
+                "servicediscovery:GetOperation",
                 "iam:CreateRole",
                 "iam:AttachRolePolicy",
                 "iam:PutRolePolicy",
@@ -41,9 +58,10 @@
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "ecs:UpdateService",
                 "iam:DetachRolePolicy",
-                "iam:ListAttachedRolePolicies",
                 "ec2:RevokeSecurityGroupEgress",
+                "iam:ListAttachedRolePolicies",
                 "ecs:RegisterTaskDefinition",
+                "servicediscovery:GetInstancesHealthStatus",
                 "elasticloadbalancing:CreateRule",
                 "ecs:StopTask",
                 "s3:DeleteObject",
@@ -51,6 +69,8 @@
                 "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
                 "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
                 "ecs:ListTaskDefinitions",
+                "servicediscovery:TagResource",
+                "servicediscovery:ListServices",
                 "iam:GetRole",
                 "ecs:CreateCluster",
                 "ec2:CreateTags",
@@ -59,6 +79,7 @@
                 "ec2:DeleteNetworkInterface",
                 "ecs:DeleteService",
                 "ecs:DeleteCluster",
+                "servicediscovery:CreatePrivateDnsNamespace",
                 "ecs:DescribeClusters",
                 "elasticloadbalancing:DescribeLoadBalancerAttributes",
                 "ec2:RevokeSecurityGroupIngress",
@@ -66,6 +87,7 @@
                 "s3:PutObject",
                 "s3:GetObject",
                 "sts:AssumeRole",
+                "servicediscovery:UntagResource",
                 "elasticloadbalancing:DescribeTargetGroupAttributes",
                 "elasticfilesystem:CreateMountTarget",
                 "ec2:DescribeSecurityGroupRules",
@@ -77,8 +99,11 @@
                 "elasticloadbalancing:ModifyLoadBalancerAttributes",
                 "iam:GetRolePolicy",
                 "elasticfilesystem:DeleteFileSystem",
+                "servicediscovery:ListInstances",
+                "servicediscovery:ListOperations",
                 "ec2:DeleteTags",
                 "elasticfilesystem:CreateFileSystem",
+                "servicediscovery:ListNamespaces",
                 "ec2:DescribeRegions",
                 "s3:ListBucket",
                 "ec2:DescribeVpcAttribute",
@@ -89,23 +114,26 @@
                 "ecs:CreateService",
                 "elasticloadbalancing:DescribeListeners",
                 "ec2:DescribeNetworkInterfaces",
-                "ecs:ListTasks",
                 "elasticfilesystem:DescribeLifecycleConfiguration",
-                "iam:DeleteRolePolicy",
+                "ecs:ListTasks",
                 "ec2:CreateSecurityGroup",
+                "iam:DeleteRolePolicy",
                 "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
                 "ecs:DescribeServices",
+                "servicediscovery:GetInstance",
                 "elasticfilesystem:DescribeFileSystems",
                 "elasticfilesystem:DeleteMountTarget",
                 "elasticloadbalancing:DeleteRule",
                 "elasticfilesystem:DescribeMountTargets",
                 "elasticloadbalancing:CreateLoadBalancer",
+                "servicediscovery:DiscoverInstances",
                 "logs:DeleteLogGroup",
                 "elasticloadbalancing:DescribeTags",
                 "elasticloadbalancing:SetSubnets",
                 "elasticloadbalancing:DeleteTargetGroup",
                 "elasticloadbalancing:CreateLoadBalancerListeners",
                 "ec2:DescribeSecurityGroups",
+                "servicediscovery:ListTagsForResource",
                 "ec2:DescribeVpcs",
                 "ec2:DeleteSecurityGroup",
                 "elasticloadbalancing:SetSecurityGroups",
@@ -117,20 +145,16 @@
             "Resource": "*"
         },
         {
-            "Sid": "VisualEditor2",
-            "Effect": "Allow",
-            "Action": "iam:PassRole",
-            "Resource": "*",
-            "Condition": {
-                "StringEquals": {
-                    "iam:PassedToService": "ecs-tasks.amazonaws.com"
-                }
-            }
-        },
-        {
             "Sid": "VisualEditor3",
             "Effect": "Allow",
-            "Action": "servicediscovery:CreateHttpNamespace",
+            "Action": [
+                "servicediscovery:DeregisterInstance",
+                "servicediscovery:CreateHttpNamespace",
+                "servicediscovery:DeleteNamespace",
+                "servicediscovery:CreatePrivateDnsNamespace",
+                "servicediscovery:RegisterInstance",
+                "servicediscovery:UpdatePrivateDnsNamespace"
+            ],
             "Resource": [
                 "arn:aws:servicediscovery:*:*:service/*",
                 "arn:aws:servicediscovery:*:*:namespace/*"

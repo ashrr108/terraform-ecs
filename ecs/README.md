@@ -89,14 +89,14 @@ Every installation is tied to one “org” and has a default admin account iden
 ## AWS Resources for Roost
 
 Expect below AWS resources to pre-exist
-|Data | Name  | Comments
+|Data | Name | Description
 |-----------|---------| ----------
-| AWS Region| region  | AWS region where the Roost resources will be created
+| AWS Region|region | AWS region where the Roost resources will be created
 | AWS VPC | vpc_id | VPC in the above region
 | AWS Public Subnets | subnets | In 2 or more Availability Zones
 | AWS Private Subnet | private_subnet | For the ECS containers to use
 | AWS Certificate ARN |  certificate_arn | SSL Certificate for the custom domain to associate with Load Balancer DNS
-| AWS RDS | mysql_(host|port|user|password) | MySQL/Aurora RDS details for db schema to be created
+| AWS RDS | mysql_(host\|port\|user\|password) | MySQL/Aurora RDS details for db schema to be created
 | AWS ECS Cluster| cluster_name | ECS Cluster where the task definition and services are to be created
 
 Terraform to Create (Destroy)
