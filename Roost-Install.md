@@ -182,6 +182,8 @@ Access Roost on web-browser at the custom domain provided [https://roost.\<compa
 
 
 -   Check the ECS Cluster and containers are in a running state
+
      Access ECS dashboard
+     
     [![](https://docs.aws.amazon.com/assets/images/favicon.ico)Amazon ECS clusters - Amazon Elastic Container Service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/clusters.html)
 
