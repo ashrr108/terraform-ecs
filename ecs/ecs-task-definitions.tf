@@ -1,22 +1,22 @@
-resource "aws_ecs_task_definition" "roost" {
-  family                   = "roost"
-  execution_role_arn       = data.aws_iam_role.ecs_tasks_execution_role.arn
-  task_role_arn            = data.aws_iam_role.ecs_tasks_execution_role.arn
+resource "aws_ecs_task_definition" "roostnginx" {
+  family                   = "roostnginx"
+  execution_role_arn       = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
+  task_role_arn            = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = 4096
-  memory                   = 8192
+  cpu                      = 1024
+  memory                   = 2048
   runtime_platform {
     cpu_architecture        = "X86_64"
     operating_system_family = "LINUX"
   }
   container_definitions = jsonencode([
     {
-      name      = "roost-nginx"
+      name      = "roostnginx"
       image     = "${var.NGINX_IMG}:${var.NGINX_VER}"
-      cpu       = 512
-      memory    = 512
-      essential = false
+      cpu       = tonumber(1024)
+      memory    = tonumber(2048)
+      essential = true
       portMappings = [
         {
           name          = "port-80"
@@ -36,11 +36,24 @@ resource "aws_ecs_task_definition" "roost" {
         }
       }
     },
+  ])
+}
+
+
+
+resource "aws_ecs_task_definition" "roostweb" {
+  family                   = "roost-web"
+  execution_role_arn       = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 2048
+  memory                   = 4096
+  container_definitions = jsonencode([
     {
       name      = "roost-web"
       image     = "${var.UI_IMG}:${var.UI_VER}"
-      cpu       = 512
-      memory    = 1024
+      cpu       = tonumber(2048)
+      memory    = tonumber(4096)
       essential = true
       portMappings = [
         {
@@ -111,12 +124,24 @@ resource "aws_ecs_task_definition" "roost" {
         }
       }
     },
+  ])
+}
+
+
+resource "aws_ecs_task_definition" "roostapp" {
+  family                   = "roost-app"
+  execution_role_arn       = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 4096
+  memory                   = 8192
+  container_definitions = jsonencode([
     {
       name      = "roost-app"
       image     = "${var.SERVER_IMG}:${var.SERVER_VER}"
-      cpu       = 1024
-      memory    = 2048
-      essential = false
+      cpu       = tonumber(2048)
+      memory    = tonumber(4096)
+      essential = true
       portMappings = [
         {
           name          = "port-3000"
@@ -137,7 +162,7 @@ resource "aws_ecs_task_definition" "roost" {
         },
         {
           "name" : "EAAS_SVC",
-          "value" : "127.0.0.1"
+          "value" : "roosteaas.roostns"
         },
         {
           "name" : "JWT_SECRET",
@@ -216,7 +241,7 @@ resource "aws_ecs_task_definition" "roost" {
       mountPoints = [
         {
           containerPath = "/var/tmp/Roost",
-          sourceVolume  = "efs-roost"
+          sourceVolume  = "efs-approost"
         }
       ]
       logConfiguration = {
@@ -232,8 +257,8 @@ resource "aws_ecs_task_definition" "roost" {
     {
       name      = "roost-jump"
       image     = "${var.JUMPHOST_IMG}:${var.JUMPHOST_VER}"
-      cpu       = 1024
-      memory    = 2048
+      cpu       = tonumber(2048)
+      memory    = tonumber(4096)
       essential = false
       portMappings = [
         {
@@ -269,7 +294,7 @@ resource "aws_ecs_task_definition" "roost" {
       mountPoints = [
         {
           containerPath = "/var/tmp/Roost",
-          sourceVolume  = "efs-roost"
+          sourceVolume  = "efs-approost"
         }
       ]
       logConfiguration = {
@@ -282,12 +307,33 @@ resource "aws_ecs_task_definition" "roost" {
         }
       }
     },
+  ])
+  volume {
+    name = "efs-approost"
+    efs_volume_configuration {
+      file_system_id          = aws_efs_file_system.efs.id
+      root_directory          = "/"
+      transit_encryption_port = null
+    }
+  }
+}
+
+
+
+resource "aws_ecs_task_definition" "roosteaas" {
+  family                   = "roost-eaas"
+  execution_role_arn       = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 2048
+  memory                   = 4096
+  container_definitions = jsonencode([
     {
       name      = "roost-eaas"
       image     = "${var.RELEASE_IMG}:${var.RELEASE_VER}"
-      cpu       = 1024
-      memory    = 2048
-      essential = false
+      cpu       = tonumber(2048)
+      memory    = tonumber(4096)
+      essential = true
       portMappings = [
         {
           name          = "port-60003"
@@ -297,7 +343,7 @@ resource "aws_ecs_task_definition" "roost" {
           appProtocol   = "http"
         }
       ]
-      environment = [
+            environment = [
         {
           "name" : "VERBOSE_LEVEL",
           "value" : "${var.roost_verbose_level}"
@@ -318,7 +364,7 @@ resource "aws_ecs_task_definition" "roost" {
       mountPoints = [
         {
           containerPath = "/var/tmp/Roost",
-          sourceVolume  = "efs-roost"
+          sourceVolume  = "efs-releaseserver"
         }
       ]
       logConfiguration = {
@@ -330,19 +376,15 @@ resource "aws_ecs_task_definition" "roost" {
           awslogs-stream-prefix = "releaseserver-container"
         }
       }
-
     },
   ])
   volume {
-    name = "efs-roost"
+    name = "efs-releaseserver"
     efs_volume_configuration {
       file_system_id          = aws_efs_file_system.efs.id
       root_directory          = "/"
       transit_encryption_port = null
     }
   }
-  tags = {
-    Project = var.project_name
-    Name    = "roost-ecs-task-definition"
-  }
 }
+

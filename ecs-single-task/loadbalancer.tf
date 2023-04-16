@@ -15,7 +15,6 @@ resource "aws_lb" "loadbalancer" {
 
 }
 
-
 resource "aws_lb_listener" "loadbalancer" {
   load_balancer_arn = aws_lb.loadbalancer.id
   port              = "443"
@@ -24,15 +23,16 @@ resource "aws_lb_listener" "loadbalancer" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.roostnginx.arn
+    target_group_arn = aws_lb_target_group.roost.arn
+  }
+  tags = {
+    Project = var.project_name
+    Name    = "roost-lb-listener"
   }
 }
 
-
-# ======================= roostnginx =======================
-
-resource "aws_lb_target_group" "roostnginx" {
-  name        = "roostnginx-tg"
+resource "aws_lb_target_group" "roost" {
+  name        = "roost-tg"
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
@@ -49,24 +49,9 @@ resource "aws_lb_target_group" "roostnginx" {
   }
   tags = {
     Project = var.project_name
+    Name    = "roost-lb-target-group"
   }
   depends_on = [
-    aws_ecs_task_definition.roostnginx
+    aws_ecs_task_definition.roost
   ]
-}
-
-resource "aws_lb_listener_rule" "roostnginx" {
-  listener_arn = aws_lb_listener.loadbalancer.arn
-  priority     = 100
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.roostnginx.arn
-  }
-
-  condition {
-    path_pattern {
-      values = ["/"]
-    }
-  }
 }
