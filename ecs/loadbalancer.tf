@@ -43,7 +43,7 @@ resource "aws_lb_target_group" "roostnginx" {
     matcher             = "200"
     healthy_threshold   = 2
     unhealthy_threshold = 10
-    timeout             = 30
+    timeout             = 20
     interval            = 30
   }
   tags = {
