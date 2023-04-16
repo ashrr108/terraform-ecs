@@ -75,7 +75,7 @@ variable "NGINX_IMG" {
 variable "NGINX_VER" {
   description = "Roost configuration nginx tag"
   type        = string
-  default     = "ecs"
+  default     = "discovery"
 }
 
 variable "create_cluster" {
