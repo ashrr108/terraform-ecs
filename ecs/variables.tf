@@ -75,7 +75,7 @@ variable "NGINX_IMG" {
 variable "NGINX_VER" {
   description = "Roost configuration nginx tag"
   type        = string
-  default     = "ecs"
+  default     = "discovery"
 }
 
 variable "create_cluster" {
@@ -177,6 +177,24 @@ variable "azure_client_id" {
 
 variable "azure_client_secret" {
   description = "AZURE_CLIENT_SECRET"
+  type        = string
+  default     = ""
+}
+
+variable "azure_adfs_client_issuer" {
+  description = "AZURE_ADFS_CLIENT_ISSUER"
+  type        = string
+  default     = ""
+}
+
+variable "azure_adfs_client_id" {
+  description = "AZURE_ADFS_CLIENT_ID"
+  type        = string
+  default     = ""
+}
+
+variable "azure_adfs_client_secret" {
+  description = "AZURE_ADFS_CLIENT_secret"
   type        = string
   default     = ""
 }
