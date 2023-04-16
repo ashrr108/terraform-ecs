@@ -15,7 +15,7 @@ Every installation is tied to one “org” and has a default admin account iden
     
 4.  Import SSL certificate for domain: wildcard *.\<company-domain>.com into AWS Certificate Manager for the same AWS region (make a note of the ARN).
     
-5.  Identify at least one 3rd party authentication method. Roost supports Google, Microsoft, Github and OKTA (will need to configure call back URL for https://roost.\<company-domain\>.com/login)
+5.  Identify at least one 3rd party authentication method. Roost supports Google, Microsoft, Github and OKTA (will need to configure call back URL for https://roost.<company-domain\>.com/login)
 
 ## Add Redirect URI for Azure AD
 
