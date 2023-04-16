@@ -1,0 +1,32 @@
+#general info
+admin_email               = ""
+company_name              = ""
+
+#infra info
+create_cluster = false
+cluster_name = ""
+region = ""
+vpc_id = ""
+subnets = []
+certificate_arn = ""
+enterprise_dns            = ""
+
+#auth info
+okta_client_issuer        = ""
+okta_client_id            = ""
+okta_client_secret        = ""
+azure_client_id           = ""
+azure_client_secret       = ""
+azure_adfs_client_issuer = ""
+azure_adfs_client_id = ""
+azure_adfs_client_secret =""
+
+#db info
+mysql_user                = ""
+mysql_host                = ""
+mysql_password            = ""
+mysql_port                = ""
+dbname        = ""
+
+#roost info
+roost_version             = ""

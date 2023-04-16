@@ -99,6 +99,14 @@ resource "aws_ecs_task_definition" "roost" {
         {
           "name" : "REACT_APP_DB_VER",
           "value" : "v1.1.0"
+        },
+        {
+          "name" : "REACT_APP_AZURE_ADFS_CLIENT_ISSUER",
+          "value" : "${var.azure_adfs_client_issuer}"
+        },
+        {
+          "name" : "REACT_APP_AZURE_ADFS_CLIENT_ID",
+          "value" : "${var.azure_adfs_client_id}"
         }
       ],
       logConfiguration = {
@@ -211,7 +219,18 @@ resource "aws_ecs_task_definition" "roost" {
           "name" : "AZURE_CLIENT_SECRET",
           "value" : "${var.azure_client_secret}"
         },
-
+        {
+          "name" : "AZURE_ADFS_CLIENT_ISSUER",
+          "value" : "${var.azure_adfs_client_issuer}"
+        },
+        {
+          "name" : "AZURE_ADFS_CLIENT_SECRET",
+          "value" : "${var.azure_adfs_client_secret}"
+        },
+        {
+          "name" : "AZURE_ADFS_CLIENT_ID",
+          "value" : "${var.azure_adfs_client_id}"
+        }
       ],
       mountPoints = [
         {

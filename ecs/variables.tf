@@ -181,6 +181,24 @@ variable "azure_client_secret" {
   default     = ""
 }
 
+variable "azure_adfs_client_issuer" {
+  description = "AZURE_ADFS_CLIENT_ISSUER"
+  type        = string
+  default     = ""
+}
+
+variable "azure_adfs_client_id" {
+  description = "AZURE_ADFS_CLIENT_ID"
+  type        = string
+  default     = ""
+}
+
+variable "azure_adfs_client_secret" {
+  description = "AZURE_ADFS_CLIENT_secret"
+  type        = string
+  default     = ""
+}
+
 variable "enterprise_logo" {
   description = "ENTERPRISE LOGO"
   type        = string
