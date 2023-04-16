@@ -1,20 +1,15 @@
-
 resource "aws_lb" "loadbalancer" {
   name               = "roost-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = flatten(["${aws_security_group.loadbalancer.*.id}"])
   subnets            = var.subnets
-
   enable_deletion_protection = false
-
   tags = {
     Project = var.project_name
     Name    = "roost-lb"
   }
-
 }
-
 
 resource "aws_lb_listener" "loadbalancer" {
   load_balancer_arn = aws_lb.loadbalancer.id
@@ -25,6 +20,10 @@ resource "aws_lb_listener" "loadbalancer" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.roostnginx.arn
+  }
+  tags = {
+    Project = var.project_name
+    Name    = "roost-lb-listener"
   }
 }
 
@@ -49,6 +48,7 @@ resource "aws_lb_target_group" "roostnginx" {
   }
   tags = {
     Project = var.project_name
+    Name = "roost-lb-target-group"
   }
   depends_on = [
     aws_ecs_task_definition.roostnginx
@@ -63,10 +63,13 @@ resource "aws_lb_listener_rule" "roostnginx" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.roostnginx.arn
   }
-
   condition {
     path_pattern {
       values = ["/"]
     }
+  }
+  tags = {
+    Project = var.project_name
+    Name = "roost-lb-listener-rule"
   }
 }

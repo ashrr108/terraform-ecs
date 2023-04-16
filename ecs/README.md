@@ -110,9 +110,9 @@ Terraform to Create (Destroy)
 |AWS Elastic File System|roost-efs| For log and config file persistence
 |AWS EFS Mount Target|roost-mount-target| Mount point for all ECS containers with storage need
 |AWS LoadBalancer|roost-lb|Application Load Balancer for ECS Service
-|AWS LoadBalancer Listener|loadbalancer|ALB Listener
-|AWS LoadBalancer Listener Rule|loadbalancer|ALB Listener Rule to forward all requests to ECS Roost Nginx
-|AWS LoadBalancer Target Group|loadbalancer|ALB Target Group forwarding external traffic to ECS
+|AWS LoadBalancer Listener|roost-lb-listener|ALB Listener
+|AWS LoadBalancer Listener Rule|roost-lb-listener-rule|ALB Listener Rule to forward all requests to ECS Roost Nginx
+|AWS LoadBalancer Target Group|roost-lb-target-group|ALB Target Group forwarding external traffic to ECS
 |AWS ECS Task Definition|roost-nginx|ECS Task for Roost Routing
 |AWS ECS Task Definition|roost-web|ECS Task for Roost UI
 |AWS ECS Task Definition|roost-app|ECS Task for App Controller
