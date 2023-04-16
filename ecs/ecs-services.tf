@@ -16,7 +16,6 @@ resource "aws_ecs_service" "roostnginx" {
     container_port   = 80
   }
 
-
   tags = {
     Project = var.project_name
     Name    = "roostnginx-svc"
@@ -26,19 +25,18 @@ resource "aws_ecs_service" "roostnginx" {
     aws_ecs_task_definition.roostnginx,
     aws_ecs_service.roostweb,
     aws_ecs_service.roostapp
-
   ]
 }
-
 
 resource "aws_service_discovery_private_dns_namespace" "roostns" {
   name        = "roostns"
   description = "namespace for roost services"
   vpc         = data.aws_vpc.selected.id
+  tags = {
+    Project = var.project_name
+    Name    = "roostns"
+  }
 }
-
-
-
 
 resource "aws_ecs_service" "roostweb" {
   name            = "roost-web"
@@ -56,7 +54,6 @@ resource "aws_ecs_service" "roostweb" {
   service_registries  {
     registry_arn = aws_service_discovery_service.roostweb.arn
   }
-
 
   tags = {
     Project = var.project_name
@@ -84,6 +81,10 @@ resource "aws_service_discovery_service" "roostweb" {
 
   health_check_custom_config {
     failure_threshold = 1
+  }
+  tags = {
+    Project = var.project_name
+    Name    = "roostweb"
   }
 }
 
@@ -131,6 +132,10 @@ resource "aws_service_discovery_service" "roostapp" {
   health_check_custom_config {
     failure_threshold = 1
   }
+  tags = {
+    Project = var.project_name
+    Name    = "roostapp"
+  }
 }
 
 
@@ -177,7 +182,8 @@ resource "aws_service_discovery_service" "roosteaas" {
   health_check_custom_config {
     failure_threshold = 1
   }
+  tags = {
+    Project = var.project_name
+    Name    = "roosteaas"
+  }
 }
-
-
-

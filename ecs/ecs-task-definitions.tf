@@ -37,6 +37,10 @@ resource "aws_ecs_task_definition" "roostnginx" {
       }
     },
   ])
+  tags = {
+    Project = var.project_name
+    Name    = "roost-nginx-task-def"
+  }
 }
 
 
@@ -125,6 +129,10 @@ resource "aws_ecs_task_definition" "roostweb" {
       }
     },
   ])
+  tags = {
+    Project = var.project_name
+    Name    = "roost-web-task-def"
+  }
 }
 
 
@@ -316,6 +324,10 @@ resource "aws_ecs_task_definition" "roostapp" {
       transit_encryption_port = null
     }
   }
+  tags = {
+    Project = var.project_name
+    Name    = "roost-app-task-def"
+  }
 }
 
 
@@ -386,5 +398,8 @@ resource "aws_ecs_task_definition" "roosteaas" {
       transit_encryption_port = null
     }
   }
+  tags = {
+    Project = var.project_name
+    Name    = "roost-eaas-task-def"
+  }
 }
-
