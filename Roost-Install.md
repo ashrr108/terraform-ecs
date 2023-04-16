@@ -31,7 +31,7 @@ Every installation is tied to one “org” and has a default admin account iden
         
 3.  On the app registration page, select **Authentication**. In the **Platform configurations** section, select **Add URI** to add the Redirect URI that is displayed in the error message to Azure AD.
     
-4.  URI will look like https://roost.\<company-domain>.com/login
+4.  URI will look like https://roost.<company-domain\>.com/login
 
 ## AWS Pre-requisites for Roost Installation
 
