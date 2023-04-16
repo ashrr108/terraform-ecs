@@ -1,0 +1,57 @@
+
+resource "aws_lb" "loadbalancer" {
+  name               = "roost-lb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = flatten(["${aws_security_group.loadbalancer.*.id}"])
+  subnets            = var.subnets
+
+  enable_deletion_protection = false
+
+  tags = {
+    Project = var.project_name
+    Name    = "roost-alb"
+  }
+
+}
+
+resource "aws_lb_listener" "loadbalancer" {
+  load_balancer_arn = aws_lb.loadbalancer.id
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = var.certificate_arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.roost.arn
+  }
+  tags = {
+    Project = var.project_name
+    Name    = "roost-alb-listener"
+  }
+}
+
+resource "aws_lb_target_group" "roost" {
+  name        = "roost-tg"
+  port        = 80
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = data.aws_vpc.selected.id
+  health_check {
+    port                = 80
+    path                = "/"
+    protocol            = "HTTP"
+    matcher             = "200"
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    interval            = 10
+  }
+  tags = {
+    Project = var.project_name
+    Name    = "roost-alb-target-group"
+  }
+  depends_on = [
+    aws_ecs_task_definition.roost
+  ]
+}
