@@ -1,6 +1,6 @@
 #general info
-admin_email               = ""
-company_name              = ""
+admin_email               = "admin@abc.com"
+company_name              = "abc"
 
 #infra info
 create_cluster = false
@@ -9,7 +9,7 @@ region = ""
 vpc_id = ""
 subnets = []
 certificate_arn = ""
-enterprise_dns            = ""
+enterprise_dns            = "abc.com"
 
 #auth info
 okta_client_issuer        = ""
@@ -25,8 +25,8 @@ azure_adfs_client_secret =""
 mysql_user                = ""
 mysql_host                = ""
 mysql_password            = ""
-mysql_port                = ""
+mysql_port                = "3306"
 dbname        = ""
 
 #roost info
-roost_version             = ""
+roost_version             = "ecs"
