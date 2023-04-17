@@ -32,7 +32,6 @@ resource "aws_security_group" "loadbalancer" {
   }
 }
 
-
 resource "aws_security_group" "database" {
   name_prefix            = "database"
   description            = "Allow TLS inbound traffic"
@@ -77,14 +76,14 @@ resource "aws_security_group" "roostnginx" {
   revoke_rules_on_delete = true
 
   # TODO: Delete internet allowed ingress after testing
-#  ingress {
-#    description      = "Allow from internet"
-#    from_port        = 80
-#    to_port          = 80
-#    protocol         = "tcp"
-#    cidr_blocks      = ["0.0.0.0/0"]
-#    ipv6_cidr_blocks = ["::/0"]
-#  }
+#   ingress {
+#     description      = "Allow from internet"
+#     from_port        = 80
+#     to_port          = 80
+#     protocol         = "tcp"
+#     cidr_blocks      = ["0.0.0.0/0"]
+#     ipv6_cidr_blocks = ["::/0"]
+#   }
   ingress {
     description     = "Allow from loadbalancer"
     from_port       = 80
@@ -113,13 +112,13 @@ resource "aws_security_group" "roostnginx" {
     protocol    = "tcp"
     self        = true
   }
-  ingress {
-    description = "for consoleproxy"
-    from_port   = 3001
-    to_port     = 3001
-    protocol    = "tcp"
-    self        = true
-  }
+#   ingress {
+#     description = "for consoleproxy"
+#     from_port   = 3001
+#     to_port     = 3001
+#     protocol    = "tcp"
+#     self        = true
+#   }
   ingress {
     description = "for releaseserver"
     from_port   = 60003
