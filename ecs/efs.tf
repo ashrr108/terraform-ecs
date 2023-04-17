@@ -2,7 +2,7 @@ resource "aws_efs_file_system" "efs" {
   creation_token = var.project_name
   tags = {
     Project = var.project_name
-    Name = "roost-efs"
+    Name    = "roost-efs"
   }
 }
 
@@ -15,9 +15,18 @@ resource "aws_security_group" "efs_mount_target" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  egress {
+    from_port        = 2049
+    to_port          = 2049
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
   tags = {
     Project = var.project_name
-    Name = "roost-efs-sg"
+    Name    = "roost-efs-sg"
   }
 }
 
