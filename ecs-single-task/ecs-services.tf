@@ -5,9 +5,9 @@ resource "aws_ecs_service" "roost" {
   desired_count   = 1
   launch_type     = "FARGATE"
   network_configuration {
-    subnets          = [var.subnets[0]]
+    subnets          = var.private_subnet != "" ? [var.private_subnet] : [var.subnets[0]]
     security_groups  = flatten([aws_security_group.roostnginx.*.id])
-    assign_public_ip = true
+    assign_public_ip = var.private_subnet != "" ? false : true
   }
 
   load_balancer {
