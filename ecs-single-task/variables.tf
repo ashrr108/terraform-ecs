@@ -84,6 +84,12 @@ variable "create_cluster" {
   default     = false
 }
 
+variable "private_subnet" {
+  description = "One private subnet with the nat gateway attached is required to not use public ip in ecs services. "
+  type        = string
+  default     = ""
+}
+
 variable "cluster_name" {
   description = "Roost create ecs cluster"
   type        = string
