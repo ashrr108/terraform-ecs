@@ -1,7 +1,7 @@
 resource "aws_ecs_task_definition" "roostnginx" {
   family                   = "roostnginx"
-  execution_role_arn       = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
-  task_role_arn            = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
+  execution_role_arn       = data.aws_iam_role.ecs_tasks_execution_role.arn
+  task_role_arn            = data.aws_iam_role.ecs_tasks_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = 1024
