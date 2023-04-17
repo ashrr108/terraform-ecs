@@ -43,9 +43,9 @@ resource "aws_lb_target_group" "roost" {
     protocol            = "HTTP"
     matcher             = "200"
     healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 3
-    interval            = 10
+    unhealthy_threshold = 10
+    timeout             = 20
+    interval            = 30
   }
   tags = {
     Project = var.project_name

@@ -1,22 +1,22 @@
-resource "aws_ecs_task_definition" "roostnginx" {
-  family                   = "roostnginx"
+resource "aws_ecs_task_definition" "roost" {
+  family                   = "roost"
   execution_role_arn       = data.aws_iam_role.ecs_tasks_execution_role.arn
   task_role_arn            = data.aws_iam_role.ecs_tasks_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = 1024
-  memory                   = 2048
+  cpu                      = 4096
+  memory                   = 8192
   runtime_platform {
     cpu_architecture        = "X86_64"
     operating_system_family = "LINUX"
   }
   container_definitions = jsonencode([
     {
-      name      = "roostnginx"
+      name      = "roost-nginx"
       image     = "${var.NGINX_IMG}:${var.NGINX_VER}"
-      cpu       = tonumber(1024)
-      memory    = tonumber(2048)
-      essential = true
+      cpu       = 512
+      memory    = 512
+      essential = false
       portMappings = [
         {
           name          = "port-80"
@@ -36,28 +36,11 @@ resource "aws_ecs_task_definition" "roostnginx" {
         }
       }
     },
-  ])
-  tags = {
-    Project = var.project_name
-    Name    = "roost-nginx-task-def"
-  }
-}
-
-
-
-resource "aws_ecs_task_definition" "roostweb" {
-  family                   = "roost-web"
-  execution_role_arn       = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
-  requires_compatibilities = ["FARGATE"]
-  network_mode             = "awsvpc"
-  cpu                      = 2048
-  memory                   = 4096
-  container_definitions = jsonencode([
     {
       name      = "roost-web"
       image     = "${var.UI_IMG}:${var.UI_VER}"
-      cpu       = tonumber(2048)
-      memory    = tonumber(4096)
+      cpu       = 512
+      memory    = 1024
       essential = true
       portMappings = [
         {
@@ -136,28 +119,12 @@ resource "aws_ecs_task_definition" "roostweb" {
         }
       }
     },
-  ])
-  tags = {
-    Project = var.project_name
-    Name    = "roost-web-task-def"
-  }
-}
-
-
-resource "aws_ecs_task_definition" "roostapp" {
-  family                   = "roost-app"
-  execution_role_arn       = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
-  requires_compatibilities = ["FARGATE"]
-  network_mode             = "awsvpc"
-  cpu                      = 4096
-  memory                   = 8192
-  container_definitions = jsonencode([
     {
       name      = "roost-app"
       image     = "${var.SERVER_IMG}:${var.SERVER_VER}"
-      cpu       = tonumber(2048)
-      memory    = tonumber(4096)
-      essential = true
+      cpu       = 1024
+      memory    = 2048
+      essential = false
       portMappings = [
         {
           name          = "port-3000"
@@ -174,11 +141,11 @@ resource "aws_ecs_task_definition" "roostapp" {
         },
         {
           "name" : "JUMPHOST_SVC",
-          "value" : "roostapp.roostns"
+          "value" : "127.0.0.1"
         },
         {
           "name" : "EAAS_SVC",
-          "value" : "roosteaas.roostns"
+          "value" : "127.0.0.1"
         },
         {
           "name" : "JWT_SECRET",
@@ -272,7 +239,7 @@ resource "aws_ecs_task_definition" "roostapp" {
       mountPoints = [
         {
           containerPath = "/var/tmp/Roost",
-          sourceVolume  = "efs-approost"
+          sourceVolume  = "efs-roost"
         }
       ]
       logConfiguration = {
@@ -288,8 +255,8 @@ resource "aws_ecs_task_definition" "roostapp" {
     {
       name      = "roost-jump"
       image     = "${var.JUMPHOST_IMG}:${var.JUMPHOST_VER}"
-      cpu       = tonumber(2048)
-      memory    = tonumber(4096)
+      cpu       = 1024
+      memory    = 2048
       essential = false
       portMappings = [
         {
@@ -325,7 +292,7 @@ resource "aws_ecs_task_definition" "roostapp" {
       mountPoints = [
         {
           containerPath = "/var/tmp/Roost",
-          sourceVolume  = "efs-approost"
+          sourceVolume  = "efs-roost"
         }
       ]
       logConfiguration = {
@@ -338,37 +305,12 @@ resource "aws_ecs_task_definition" "roostapp" {
         }
       }
     },
-  ])
-  volume {
-    name = "efs-approost"
-    efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.efs.id
-      root_directory          = "/"
-      transit_encryption_port = null
-    }
-  }
-  tags = {
-    Project = var.project_name
-    Name    = "roost-app-task-def"
-  }
-}
-
-
-
-resource "aws_ecs_task_definition" "roosteaas" {
-  family                   = "roost-eaas"
-  execution_role_arn       = "${data.aws_iam_role.ecs_tasks_execution_role.arn}"
-  requires_compatibilities = ["FARGATE"]
-  network_mode             = "awsvpc"
-  cpu                      = 2048
-  memory                   = 4096
-  container_definitions = jsonencode([
     {
       name      = "roost-eaas"
       image     = "${var.RELEASE_IMG}:${var.RELEASE_VER}"
-      cpu       = tonumber(2048)
-      memory    = tonumber(4096)
-      essential = true
+      cpu       = 1024
+      memory    = 2048
+      essential = false
       portMappings = [
         {
           name          = "port-60003"
@@ -378,7 +320,7 @@ resource "aws_ecs_task_definition" "roosteaas" {
           appProtocol   = "http"
         }
       ]
-            environment = [
+      environment = [
         {
           "name" : "VERBOSE_LEVEL",
           "value" : "${var.roost_verbose_level}"
@@ -399,7 +341,7 @@ resource "aws_ecs_task_definition" "roosteaas" {
       mountPoints = [
         {
           containerPath = "/var/tmp/Roost",
-          sourceVolume  = "efs-releaseserver"
+          sourceVolume  = "efs-roost"
         }
       ]
       logConfiguration = {
@@ -411,10 +353,11 @@ resource "aws_ecs_task_definition" "roosteaas" {
           awslogs-stream-prefix = "releaseserver-container"
         }
       }
+
     },
   ])
   volume {
-    name = "efs-releaseserver"
+    name = "efs-roost"
     efs_volume_configuration {
       file_system_id          = aws_efs_file_system.efs.id
       root_directory          = "/"
@@ -423,6 +366,6 @@ resource "aws_ecs_task_definition" "roosteaas" {
   }
   tags = {
     Project = var.project_name
-    Name    = "roost-eaas-task-def"
+    Name    = "roost-ecs-task-definition"
   }
 }

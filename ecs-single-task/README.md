@@ -112,19 +112,9 @@ Terraform to Create (Destroy)
 |AWS LoadBalancer|roost-lb|Application Load Balancer for ECS Service
 |AWS LoadBalancer Listener|roost-lb-listener|ALB Listener
 |AWS LoadBalancer Listener Rule|roost-lb-listener-rule|ALB Listener Rule to forward all requests to ECS Roost Nginx
-|AWS LoadBalancer Target Group|roost-lb-target-group|ALB Target Group forwarding external traffic to ECS
-|AWS ECS Task Definition|roost-nginx-task-def|ECS Task for Roost Routing
-|AWS ECS Task Definition|roost-web-task-def|ECS Task for Roost UI
-|AWS ECS Task Definition|roost-app-task-def|ECS Task for App Controller
-|AWS ECS Task Definition|roost-eaas-task-def|ECS Task for EaaS server
-|ECS Service|roostnginx-svc|Service for Roost ECS nginx 
-|ECS Service|roostapp-svc|Service for Roost ECS roost-app 
-|ECS Service|roostweb-svc|Service for Roost ECS roost-web
-|ECS Service|roosteaas-svc|Service for Roost ECS roost-eaas  
-|ECS Service Namespace|roostns|Service DNS Private namespace
-|Service Discovery|roostweb|Service discovery to map DNS to ECS containers
-|Service Discovery|roostapp|Service discovery to map DNS to ECS containers
-|Service Discovery|roosteaas|Service discovery to map DNS to ECS containers
+|AWS LoadBalancer Target Group|roost-tg|ALB Target Group forwarding external traffic to ECS
+|AWS ECS Task Definition|roost|ECS Task for Roost Routing
+|ECS Service|roost|Service for Roost ECS Nginx
 
 
 # Terraform Scripts for Roost
@@ -149,16 +139,6 @@ https://github.com/roost-io/terraform ; Branch “ecs”
     terraform plan
     terraform apply
 
-## Roost Docker Images
-
-The following Roost docker.io are referred to by the Terraform scripts.
-
-Image tag is variable driven (default tag is ecs)
-  -  docker.io/zbio/roost-web:ecs
-  -  docker.io/zbio/roost-app:ecs
-  -  docker.io/zbio/roost-eaas:ecs
-  -  docker.io/zbio/roost-jump:ecs
-  -  docker.io/zbio/roost-nginx:ecs
 
 # Verifying Roost Installation
 
