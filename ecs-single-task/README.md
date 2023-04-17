@@ -112,9 +112,9 @@ Terraform to Create (Destroy)
 |AWS LoadBalancer|roost-lb|Application Load Balancer for ECS Service
 |AWS LoadBalancer Listener|roost-lb-listener|ALB Listener
 |AWS LoadBalancer Listener Rule|roost-lb-listener-rule|ALB Listener Rule to forward all requests to ECS Roost Nginx
-|AWS LoadBalancer Target Group|roost-lb-target-group|ALB Target Group forwarding external traffic to ECS
-|AWS ECS Task Definition|roost-task-def|ECS Task for Roost Routing
-|ECS Service|roost-svc|Service for Roost ECS nginx 
+|AWS LoadBalancer Target Group|roost-tg|ALB Target Group forwarding external traffic to ECS
+|AWS ECS Task Definition|roost|ECS Task for Roost Routing
+|ECS Service|roost|Service for Roost ECS Nginx
 
 
 # Terraform Scripts for Roost
