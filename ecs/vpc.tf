@@ -3,7 +3,7 @@ data "aws_vpc" "selected" {
   lifecycle {
     postcondition {
       condition     = self.enable_dns_support == true && self.enable_dns_hostnames  == true
-      error_message = "DNS support should be enabled"
+      error_message = "DNS hostnames and DNS resolution should be enabled. "
     }
   }
 }
