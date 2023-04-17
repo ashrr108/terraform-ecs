@@ -8,6 +8,7 @@ cluster_name = ""
 region = ""
 vpc_id = ""
 subnets = []
+private_subnet = ""
 certificate_arn = ""
 enterprise_dns            = "abc.com"
 

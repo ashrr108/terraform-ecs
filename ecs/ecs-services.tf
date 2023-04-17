@@ -5,9 +5,9 @@ resource "aws_ecs_service" "roostnginx" {
   desired_count   = 1
   launch_type     = "FARGATE"
   network_configuration {
-    subnets          = [var.subnets[0]]
+    subnets          = var.private_subnet != "" ? [var.private_subnet] : [var.subnets[0]]
     security_groups  = flatten([aws_security_group.roostnginx.*.id])
-    assign_public_ip = true
+    assign_public_ip = var.private_subnet != "" ? false : true
   }
 
   load_balancer {
@@ -45,10 +45,10 @@ resource "aws_ecs_service" "roostweb" {
   desired_count   = 1
   launch_type     = "FARGATE"
   network_configuration {
-    subnets = [var.subnets[0]]
+    subnets          = var.private_subnet != "" ? [var.private_subnet] : [var.subnets[0]]
     # security_groups  = flatten([aws_security_group.webroost.*.id])
     security_groups  = flatten([aws_security_group.roostnginx.*.id])
-    assign_public_ip = true
+    assign_public_ip = var.private_subnet != "" ? false : true
   }
 
   service_registries  {
@@ -82,10 +82,6 @@ resource "aws_service_discovery_service" "roostweb" {
   health_check_custom_config {
     failure_threshold = 1
   }
-  tags = {
-    Project = var.project_name
-    Name    = "roostweb"
-  }
 }
 
 
@@ -96,10 +92,10 @@ resource "aws_ecs_service" "roostapp" {
   desired_count   = 1
   launch_type     = "FARGATE"
   network_configuration {
-    subnets = [var.subnets[0]]
+    subnets          = var.private_subnet != "" ? [var.private_subnet] : [var.subnets[0]]
     # security_groups  = flatten([aws_security_group.approost.*.id])
     security_groups  = flatten([aws_security_group.roostnginx.*.id])
-    assign_public_ip = true
+    assign_public_ip = var.private_subnet != "" ? false : true
   }
   service_registries  {
     registry_arn = aws_service_discovery_service.roostapp.arn
@@ -132,10 +128,6 @@ resource "aws_service_discovery_service" "roostapp" {
   health_check_custom_config {
     failure_threshold = 1
   }
-  tags = {
-    Project = var.project_name
-    Name    = "roostapp"
-  }
 }
 
 
@@ -146,10 +138,10 @@ resource "aws_ecs_service" "roosteaas" {
   desired_count   = 1
   launch_type     = "FARGATE"
   network_configuration {
-    subnets = [var.subnets[0]]
+    subnets          = var.private_subnet != "" ? [var.private_subnet] : [var.subnets[0]]
     # security_groups  = flatten([aws_security_group.releaseserver.*.id])
     security_groups  = flatten([aws_security_group.roostnginx.*.id])
-    assign_public_ip = true
+    assign_public_ip = var.private_subnet != "" ? false : true
   }
   service_registries  {
     registry_arn = aws_service_discovery_service.roosteaas.arn

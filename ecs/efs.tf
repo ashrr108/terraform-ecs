@@ -15,14 +15,10 @@ resource "aws_security_group" "efs_mount_target" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = {
-    Project = var.project_name
-    Name = "roost-efs-sg"
-  }
 }
 
 resource "aws_efs_mount_target" "mount_target" {
   file_system_id  = aws_efs_file_system.efs.id
-  subnet_id       = var.subnets[0]
+  subnet_id       = var.private_subnet != "" ? var.private_subnet : var.subnets[0]
   security_groups = [aws_security_group.efs_mount_target.id]
 }

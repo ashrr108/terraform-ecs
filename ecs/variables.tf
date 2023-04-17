@@ -271,6 +271,12 @@ variable "dbname" {
   }
 }
 
+variable "private_subnet" {
+  description = "One private subnet with the nat gateway attached is required to not use public ip in ecs services. "
+  type        = string
+  default     = ""
+}
+
 variable "mysql_port" {
   description = "My SQL Port"
   type        = string
