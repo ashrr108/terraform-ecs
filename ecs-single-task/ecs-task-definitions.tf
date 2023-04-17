@@ -152,6 +152,10 @@ resource "aws_ecs_task_definition" "roost" {
           "value" : "32-character-secure-long-secret"
         },
         {
+          "name" : "NODE_DOMAIN_OR_IP",
+          "value" : "${var.enterprise_dns}"
+        },
+        {
           "name" : "NODE_ENV",
           "value" : "production"
         },
