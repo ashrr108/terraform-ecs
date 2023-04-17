@@ -152,12 +152,13 @@ https://github.com/roost-io/terraform ; Branch “ecs”
 ## Roost Docker Images
 
 The following Roost docker.io are referred to by the Terraform scripts.
+
 Image tag is variable driven (default tag is ecs)
-   docker.io/zbio/roost-web:ecs
-   docker.io/zbio/roost-app:ecs
-   docker.io/zbio/roost-eaas:ecs
-   docker.io/zbio/roost-jump:ecs
-   docker.io/zbio/roost-nginx:ecs
+  -  docker.io/zbio/roost-web:ecs
+  -  docker.io/zbio/roost-app:ecs
+  -  docker.io/zbio/roost-eaas:ecs
+  -  docker.io/zbio/roost-jump:ecs
+  -  docker.io/zbio/roost-nginx:ecs
 
 # Verifying Roost Installation
 
