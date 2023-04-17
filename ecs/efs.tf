@@ -23,6 +23,6 @@ resource "aws_security_group" "efs_mount_target" {
 
 resource "aws_efs_mount_target" "mount_target" {
   file_system_id  = aws_efs_file_system.efs.id
-  subnet_id       = var.subnets[0]
+  subnet_id       = var.private_subnet != "" ? var.private_subnet : var.subnets[0]
   security_groups = [aws_security_group.efs_mount_target.id]
 }

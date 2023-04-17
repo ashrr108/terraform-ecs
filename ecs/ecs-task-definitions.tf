@@ -174,7 +174,7 @@ resource "aws_ecs_task_definition" "roostapp" {
         },
         {
           "name" : "JUMPHOST_SVC",
-          "value" : "127.0.0.1"
+          "value" : "roostapp.roostns"
         },
         {
           "name" : "EAAS_SVC",
