@@ -15,6 +15,10 @@ resource "aws_security_group" "efs_mount_target" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  tags = {
+    Project = var.project_name
+    Name = "roost-efs-sg"
+  }
 }
 
 resource "aws_efs_mount_target" "mount_target" {

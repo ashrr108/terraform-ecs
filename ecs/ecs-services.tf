@@ -82,6 +82,10 @@ resource "aws_service_discovery_service" "roostweb" {
   health_check_custom_config {
     failure_threshold = 1
   }
+  tags = {
+    Project = var.project_name
+    Name    = "roostweb"
+  }
 }
 
 
@@ -127,6 +131,10 @@ resource "aws_service_discovery_service" "roostapp" {
 
   health_check_custom_config {
     failure_threshold = 1
+  }
+  tags = {
+    Project = var.project_name
+    Name    = "roostapp"
   }
 }
 
