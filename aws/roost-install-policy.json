@@ -102,7 +102,13 @@
                 "servicediscovery:ListTagsForResource",
                 "servicediscovery:GetOperation",
                 "servicediscovery:UntagResource",
-                "servicediscovery:CreatePrivateDnsNamespace"
+                "servicediscovery:CreatePrivateDnsNamespace",
+                "route53:GetHealthCheck",
+                "route53:ListHostedZonesByName",
+                "route53:DeleteHostedZone",
+                "route53:ListHostedZones",
+                "route53:GetHostedZone",
+                "route53:CreateHostedZone"
             ],
             "Resource": "*"
         },
